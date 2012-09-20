@@ -2,39 +2,19 @@ package Menu;
 import Information.*;
 import Book.*;
 
-
+import java.util.ArrayList;
 
 
 public class Menu {
-    private static final String view = "view";
-    private static final String reserve = "^reserve\\s|A|B|C|D$";
-    private static String outPut;
-    public static Book libBook;
-    public Information information;
+
     private String[] menuOptions;
     private String menuOptionsContent;
+    private BookList bookList;
 
     public Menu(){
         menuOptions = new String[4];
+        bookList = new BookList();
     }
-
-
-//    public static String Options(String menusOption) {
-//
-//        if(menusOption.equals(view)){
-//            outPut = "A\\nB\\nC\\nD";
-//        }
-//        else if(menusOption.matches(reserve)){
-//            if(menusOption.substring(menusOption.length()-1).equals("A")){
-//                libBook = new Book("A","valid");
-//                if(libBook.getBookStatus().equals("valid")){
-//                    outPut = ;
-//                }
-//            }
-//
-//        }
-//    }
-
 
     public String[] CreateMenuOptions() {
         menuOptions[0] = "help";
@@ -44,7 +24,7 @@ public class Menu {
         return menuOptions;
     }
 
-    public String getMenuOptionsContent(String[] menuOptions) {
+    public String ListMenuOptionsContent(String[] menuOptions) {
 
         menuOptionsContent = menuOptions[0] + "  List all menu options\n"
                 + menuOptions[1] +"  View all books\n"
@@ -61,9 +41,72 @@ public class Menu {
         return helpPrintContent;
     }
 
-    public String CheckPrintContent(String[] menuOptions) {
-        String checkPrintContent;
-        checkPrintContent = menuOptions[3] + "  Check your library number\n";
-        return checkPrintContent;
+    public String ViewPrintContent(ArrayList<Book> booksList) {
+        String ViewPrintContent = new String();
+        for(int i = 0;i < booksList.size(); i ++)
+        {
+            ViewPrintContent += booksList.get(i).getBookName() + "\n";
+        }
+        return ViewPrintContent;
     }
+
+    public String CheckPrintContent() {
+        Information information = new Information();
+        return information.getCheckLibNumInformation();
+    }
+
+    public String ReserveValidPrintContent() {
+        Information information = new Information();
+        return information.getValidBookInformation();
+    }
+
+    public String ReserveInvalidPrintContent() {
+
+        Information information;
+        information = new Information();
+        return information.getInvalidBookInformation();
+    }
+
+    public String SelectInvalidMenuOptionPrintContent() {
+        Information information = new Information();
+        return information.getInvalidOptionInformation();
+    }
+
+    public String Judge(String menuOption) {
+        String PrintContent = null;
+        ArrayList<Book> bookArrayList = bookList.CreateBookList();
+
+        if(menuOption.equals("help")){
+            PrintContent = HelpPrintContent(CreateMenuOptions());
+        }
+        else if(menuOption.equals("view")){
+            PrintContent = ViewPrintContent(bookArrayList);
+        }
+        else if(menuOption.matches("reserve\\s(.*)")){
+
+                for(int i = 0; i < bookArrayList.size(); i++){
+                    if(menuOption.split("\\s")[1].equals(bookArrayList.get(i).getBookName())){
+                        if(bookArrayList.get(i).getBookStatus().equals("valid")){
+                            PrintContent = ReserveValidPrintContent();
+                        }
+                        else{
+                              PrintContent = ReserveInvalidPrintContent();
+                        }
+                        break;
+                    }
+                    else{
+                        PrintContent = ReserveInvalidPrintContent();
+                    }
+                }
+        }
+        else if(menuOption.equals("check")){
+            PrintContent = CheckPrintContent();
+        }
+        else{
+            PrintContent = SelectInvalidMenuOptionPrintContent();
+        }
+        return PrintContent;
+
+    }
+
 }

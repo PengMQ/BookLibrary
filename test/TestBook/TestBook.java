@@ -11,7 +11,6 @@ public class TestBook {
         Book bookA = new Book("bookA","valid");
         assertEquals("bookA",bookA.getBookName());
     }
-
     @Test
     public void getBookStatus() throws Exception {
         Book bookA = new Book("bookA","valid");
