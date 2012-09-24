@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-
+import Movie.*;
 public class TestMenu {
     @Test
     public void CreateMenuOptions() throws Exception {
@@ -31,7 +31,7 @@ public class TestMenu {
     @Test
     public void TestSelectInvalidMenuOption() throws Exception {
         Menu menu = new Menu();
-        String selectInvalidMenuOption = "Select a valid option!!";
+        String selectInvalidMenuOption = "Select a valid option!!\n";
         assertEquals(selectInvalidMenuOption,menu.SelectInvalidMenuOptionPrintContent());
 
     }
@@ -72,6 +72,26 @@ public class TestMenu {
         Menu menu = new Menu();
         String checkListContent = "Please talk to Librarian. Thank you.\n";
         assertEquals(checkListContent,menu.CheckPrintContent());
+    }
+    public void TestViewMoviePrintContent(){
+        Menu menu = new Menu();
+        ArrayList<Movie> movieList = new MovieList().CreateMovieList();
+        String viewMovieContent = "Pride and prejudice       Joe Write           10\n"
+                +"Love Story\t\t\t\tArthur Hiller       9\n"
+                +"Breakfast At Tiffany‘s\tBlake Edwards\t\t8\n"
+                +"The Godfather\t\t\t\tFrancisFordCoppola \t10\n"
+                +"Casablanca\t\t\t\tMichael Curtiz\t\t8\n"
+                +"Roman Holiday\t\t\t\tWilliam Wyler\t\t10\n"
+                +"The Silence of the Lambs\tJonathan Demme\t\t9\n"
+                +"Leon\t\t\t\t\t\tLuc Besson\t\t\t10\n"
+                +"Farewell My Concubine\t\tKaige Chen\t\t\t8\n"
+                +"Flower Like Years\t\tKarwai Wong\t\t\t10\n"
+                +"Se7en \t\t\t\t\tDavid Leo Fincher\t6\n"
+                +"Titanic\t\t\t\t\tJames Cameron\t\t7\n"
+                +"The Piano\t\t\t\tJane Campbell PiEn\t8\n"
+                +"Gone with the Wind\t\tVictor Fleming\t\t8\n"
+                +"Brave Heart              Mel Gibson          N/A\n";
+        assertEquals(viewMovieContent,menu.viewMoviePrintContent(movieList));
     }
 
 
@@ -128,5 +148,14 @@ public class TestMenu {
         String MenuOption = "check";
         String PrintContent = menu.CheckPrintContent();
         assertEquals(PrintContent,menu.Judge(MenuOption));
+    }
+
+    @Test
+    public void TestViewMovie() throws Exception {
+        Menu menu = new Menu();
+        ArrayList<Movie>  movieList = new MovieList().CreateMovieList();
+        String menuOption = "viewMovie";
+        String PrintContent = menu.viewMoviePrintContent(movieList);
+        assertEquals(PrintContent,menu.Judge(menuOption));
     }
 }

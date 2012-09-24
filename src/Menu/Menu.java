@@ -1,8 +1,10 @@
 package Menu;
 import Information.*;
 import Book.*;
+import Movie.Movie;
 
 import java.util.ArrayList;
+import Movie.*;
 
 
 public class Menu {
@@ -10,10 +12,12 @@ public class Menu {
     private String[] menuOptions;
     private String menuOptionsContent;
     private BookList bookList;
+    private MovieList movieList;
 
     public Menu(){
         menuOptions = new String[4];
         bookList = new BookList();
+        movieList = new MovieList();
     }
 
     public String[] CreateMenuOptions() {
@@ -71,10 +75,18 @@ public class Menu {
         Information information = new Information();
         return information.getInvalidOptionInformation();
     }
+    public String viewMoviePrintContent(ArrayList<Movie> movieList) {
+        String printContent = "";
+        for(int i = 0;i < movieList.size();i ++){
+            printContent += movieList.get(i).PrintOneMovie() + "\n";
+        }
+        return printContent;
+    }
 
     public String Judge(String menuOption) {
         String PrintContent = null;
         ArrayList<Book> bookArrayList = bookList.CreateBookList();
+        ArrayList<Movie> movieArrayList = movieList.CreateMovieList();
 
         if(menuOption.equals("help")){
             PrintContent = HelpPrintContent(CreateMenuOptions());
@@ -102,11 +114,15 @@ public class Menu {
         else if(menuOption.equals("check")){
             PrintContent = CheckPrintContent();
         }
-        else{
+        else if(menuOption.equals("viewMovie")){
+            PrintContent = viewMoviePrintContent(movieArrayList);
+        }
+        else {
             PrintContent = SelectInvalidMenuOptionPrintContent();
         }
         return PrintContent;
 
     }
+
 
 }

@@ -15,6 +15,5 @@ public class TestBook {
     public void getBookStatus() throws Exception {
         Book bookA = new Book("bookA","valid");
         assertEquals("valid",bookA.getBookStatus());
-
     }
 }
